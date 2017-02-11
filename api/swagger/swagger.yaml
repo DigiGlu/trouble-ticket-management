@@ -13,6 +13,7 @@ produces:
   - application/json
 paths:
   /troubleTicket:
+    x-swagger-router-controller: troubleTicket
     post:
       tags:
         - troubleTicket
