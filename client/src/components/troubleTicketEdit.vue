@@ -1,65 +1,42 @@
 <template>
-  <div class="editContext">
+  <div class="troubleTicketEdit">
     <div class="form-horizontal">
       <div class="form-group">
-        <div class="col-sm-6">
-          <label>Context Id</label>
+        <div class="col-sm-3">
+          <label>Id</label>
           <input 
           type="string"
           class="form-control"
-          readonly
-          v-model="context.id"/>
+          v-model="troubleTicket.id"/>
         </div>
         <div class="col-sm-3">
           <label>Type</label>
           <input 
           type="string"
           class="form-control"
-          readonly
-          v-model="context.type"/>
+          v-model="troubleTicket.type"/>
         </div> 
-        <div class="col-sm-3" v-if="context.availability">
-          <label>Availablity</label>
+        <div class="col-sm-3">
+          <label>Severity</label>
           <input 
           type="string"
           class="form-control"
-          v-model="context.availability.value"/>
+          v-model="troubleTicket.severity"/>
         </div>
       </div>
       <div class="form-group">
-        <div class="col-sm-6" v-if="context.position">
-          <label>Position</label>
+        <div class="col-sm-9">
+          <label>Description</label>
           <input 
           type="string"
           class="form-control"
-          v-model="context.position.value"/>
+          v-model="troubleTicket.description"/>
         </div>
       </div>
     </div>
     <div id="buttongroup">    
       <button class="btn btn-default footer-btn" @click="$emit('cancelevent')">Cancel</button>
       <button class="btn btn-primary" @click="save()">Save</button>
-      <button class="btn btn-primary" @click="fetchData()">Refresh</button>
-
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
-        Browse JSON
-      </button>
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Context as JSON document (development only)</h4>
-            </div>
-            <div class="modal-body">
-              <pre>{{ JSON.stringify(context, null, '\t')}}</pre>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 </template>
 
@@ -67,11 +44,11 @@
 import axios from 'axios'
 
 export default {
-  name: 'editContext',
+  name: 'troubleTicketEdit',
   data () {
     return {
-      context: {},
-      contextId: this.$route.params.contextId
+      troubleTicket: {},
+      troubleTicketId: this.$route.params.troubleTicketId
     }
   },
   mounted: function() {
@@ -80,7 +57,7 @@ export default {
   methods: {
     fetchData: function(){
         let self = this;
-        const url = 'http://localhost:1026/v2/entities/' + this.contextId
+        const url = 'http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/' + this.troubleTicketId
         axios.get(url, {
           dataType: 'json',
           headers: {
@@ -89,15 +66,15 @@ export default {
           mode: 'no-cors' 
         })
         .then(function (response) {
-          self.context = response.data
+          self.troubleTicket = response.data
         })
         .catch(function (error) {
           console.log(error)
         })
       },
     save: function() {
-      let context = this.context
-      this.$emit('updatecontext', context)
+      let troubleTicket = this.troubleTicket
+      this.$emit('troubleticketupdate', troubleTicket)
     }
   }
 }

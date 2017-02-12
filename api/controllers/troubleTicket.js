@@ -20,7 +20,7 @@ var assert = require('assert');
   we specify that in the exports of this module that 'hello' maps to the function named 'hello'
  */
 
-module.exports = { troubleTicketFind, troubleTicketCreate };
+module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet };
 
 
   // Find a troubleTicket: GET /v2/troubleTicket/
@@ -35,8 +35,6 @@ module.exports = { troubleTicketFind, troubleTicketCreate };
  
     var collection = db.collection('troubleTicket');
   
-    console.log( "try to find ALL troubleTickets")
-
     // Find some documents
     collection.find({}).toArray(function(err, docs) {
         assert.equal(err, null);
@@ -48,6 +46,8 @@ module.exports = { troubleTicketFind, troubleTicketCreate };
   // Get one troubleTicket by Id: GET /v2/troubleTicket/{id}
 
   function troubleTicketGet(req, res) {
+        console.log( "got here.")
+
   var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 
   // Use connect method to connect to the server

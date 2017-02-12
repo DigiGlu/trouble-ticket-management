@@ -64,13 +64,11 @@ export default {
         const url = 'http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/'
         console.log( "Save: ", JSON.stringify(self.troubleTicket))
         axios.post(url, {
-          dataType: 'json',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
-          data: JSON.stringify(self.troubleTicket),
-          mode: 'no-cors' 
+          data: JSON.stringify(self.troubleTicket)
         })
         .then(function (response) {
             this.$emit('updatecontext', self.troubleTicket)

@@ -53,6 +53,7 @@ paths:
             items:
               $ref: '#/definitions/TroubleTicket'
   '/troubleTicket/{troubleTicketId}':
+    x-swagger-router-controller: troubleTicket
     get:
       tags:
         - troubleTicket

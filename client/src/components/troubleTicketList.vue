@@ -76,6 +76,9 @@ export default {
           $('#troubleTicketModal').modal('hide');
           this.$router.push('/')
       },
+      troubleTicketUpdate: function(troubleTicket) {
+
+      },
       fetchData: function(){
         let self = this;
         const url = 'http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/'
