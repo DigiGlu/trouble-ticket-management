@@ -115,8 +115,6 @@ div {
 
 table {
   margin-top: 30px;
-  margin-left: 20px;
-  margin-right: 20px;
 }
 
 th, td {

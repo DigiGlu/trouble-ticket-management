@@ -73,7 +73,23 @@ export default {
         })
       },
     save: function() {
-      let troubleTicket = this.troubleTicket
+        let self = this;
+        const url = 'http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/'
+        console.log( "Save: ", JSON.stringify(self.troubleTicket))
+        axios.put(url, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          data: JSON.stringify(self.troubleTicket)
+        })
+        .then(function (response) {
+            this.$emit('updatecontext', self.troubleTicket)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      }
       this.$emit('troubleticketupdate', troubleTicket)
     }
   }
