@@ -46,7 +46,6 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet };
   // Get one troubleTicket by Id: GET /v2/troubleTicket/{id}
 
   function troubleTicketGet(req, res) {
-        console.log( "got here.")
 
   var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 
@@ -57,12 +56,12 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet };
     // Get the documents collection
  
     var collection = db.collection('troubleTicket');
-  
-    console.log( "try to find troubleTicket")
-    console.log( troubleTicketId)
+
+    const query = { id: troubleTicketId.toString() }
+
     // Find some documents
-    collection.findOne({'id': troubleTicketId },function(err, doc) {
-      console.log ( doc )
+    collection.findOne( query, function(err, doc) {
+      console.log ( "found: ", doc )
         assert.equal(err, null);
         res.json( doc );
         });
