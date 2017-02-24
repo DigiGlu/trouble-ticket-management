@@ -20,7 +20,7 @@ var assert = require('assert');
   we specify that in the exports of this module that 'hello' maps to the function named 'hello'
  */
 
-module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet };
+module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, troubleTicketUpdate };
 
 
   // Find a troubleTicket: GET /v2/troubleTicket/
@@ -61,6 +61,34 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet };
 
     // Find some documents
     collection.findOne( query, function(err, doc) {
+      console.log ( "found: ", doc )
+        assert.equal(err, null);
+        res.json( doc );
+        });
+    })
+  }
+
+  // Update troubleTicket by Id: PUT /v2/troubleTicket/{id}
+
+  function troubleTicketUpdate(req, res) {
+
+  var troubleTicket = req.swagger.params.troubleTicket.value;
+  var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
+
+  // Use connect method to connect to the server
+  MongoClient.connect(config.db_url, function(err, db) {
+    assert.equal(null, err);
+
+    // Get the documents collection
+ 
+    var collection = db.collection('troubleTicket');
+
+    const query = { id: troubleTicketId.toString() }
+
+    console.log( "Update: ", JSON.stringify( query) )
+
+    // Update the document
+    collection.update( query, troubleTicket, function(err, doc) {
       console.log ( "found: ", doc )
         assert.equal(err, null);
         res.json( doc );

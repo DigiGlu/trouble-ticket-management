@@ -51,7 +51,7 @@ export default {
       troubleTicketId: this.$route.params.troubleTicketId
     }
   },
-  mounted: function() {
+  created: function() {
     this.fetchData()
   },
   methods: {
@@ -89,8 +89,7 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
-      }
-      this.$emit('troubleticketupdate', troubleTicket)
+      this.$emit('troubleticketupdate', self.troubleTicket)
     }
   }
 }
