@@ -73,13 +73,13 @@ export default {
 
         console.log( "Save: ", JSON.stringify(self.troubleTicket))
   
-        axios(request)
-        .then(function (response) {
-            this.$emit('updatecontext', self.troubleTicket)
+        axios( request ).then( function (response) {
+            console.log( 'SUCCESS: ', JSON.stringify(response))
         })
-        .catch(function (error) {
+        .catch( function (error) {
           console.log( 'ERROR: ', JSON.stringify(error))
         })
+      this.$emit('troubleticketcreate', self.troubleTicket)
       }
   }
 }

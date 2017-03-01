@@ -44,6 +44,7 @@
                     <div class="modal-body">
                       <router-view 
                           v-on:troubleticketupdate="troubleTicketUpdate"
+                          v-on:troubleticketcreate="troubleTicketCreate"
                           v-on:cancelevent="cancel">
                       </router-view>
                     </div>
@@ -68,16 +69,26 @@ export default {
       return {
         troubleTicketList: []
       }},
-  mounted: function() {
+  created: function() {
     this.fetchData()
   },
   methods: {
-      updateContext: function() {
+      troubleTicketCreate: function(troubleTicket) {
           $('#troubleTicketModal').modal('hide');
+
+          // Push element to troubleTicketList
+          this.troubleTicketList.push(troubleTicket)
+
           this.$router.push('/')
       },
       troubleTicketUpdate: function(troubleTicket) {
+          $('#troubleTicketModal').modal('hide');
 
+          // Update element in troubleTicketList
+          let i = this.troubleTicketList.findIndex(function(element) { return element.id===troubleTicket.id })
+          this.troubleTicketList[i] = troubleTicket
+
+          this.$router.push('/')
       },
       fetchData: function(){
         let self = this;
@@ -91,6 +102,7 @@ export default {
         })
         .then(function (response) {
           self.troubleTicketList = response.data
+          console.log('GET SUCCESS')
         })
         .catch(function (error) {
           console.log(error)

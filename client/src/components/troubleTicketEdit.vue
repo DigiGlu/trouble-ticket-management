@@ -76,21 +76,23 @@ export default {
       },
     save: function() {
         let self = this;
-        const url = 'http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/' + this.troubleTicketId
+
+        let request = {
+          url: "http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/" + this.troubleTicketId,
+          data: JSON.stringify(self.troubleTicket),
+          method: 'PUT',
+          headers : {
+            "Content-Type" : "application/json"
+            }
+        }
+
         console.log( "Save: ", JSON.stringify(self.troubleTicket))
-        console.log( "To: ", url )
-        axios.put(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          data: JSON.stringify(self.troubleTicket)
-        })
-        .then(function (response) {
-            this.$emit('updatecontext', self.troubleTicket)
+        console.log( "To: ", request.url )
+        axios( request ).then(function (response) {
+            console.log( 'SUCCESS: ', JSON.stringify(response))
         })
         .catch(function (error) {
-          console.log(error)
+
         })
       this.$emit('troubleticketupdate', self.troubleTicket)
     }
