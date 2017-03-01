@@ -67,6 +67,8 @@ export default {
         })
         .then(function (response) {
           self.troubleTicket = response.data
+          // delete the mongodb _id attribute from the JSON document
+          delete self.troubleTicket["_id"]
         })
         .catch(function (error) {
           console.log(error)
@@ -74,8 +76,9 @@ export default {
       },
     save: function() {
         let self = this;
-        const url = 'http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/'
+        const url = 'http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/' + this.troubleTicketId
         console.log( "Save: ", JSON.stringify(self.troubleTicket))
+        console.log( "To: ", url )
         axios.put(url, {
           headers: {
             'Content-Type': 'application/json',

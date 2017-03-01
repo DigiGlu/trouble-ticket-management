@@ -89,7 +89,6 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
 
     // Update the document
     collection.update( query, troubleTicket, function(err, doc) {
-      console.log ( "found: ", doc )
         assert.equal(err, null);
         res.json( doc );
         });
@@ -100,6 +99,8 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
 
   function troubleTicketCreate(req, res) {
   var troubleTicket = req.swagger.params.troubleTicket.value;
+
+    console.log( "Create: ", JSON.stringify( troubleTicket) )
 
   // Use connect method to connect to the server
   MongoClient.connect(config.db_url, function(err, db) {
