@@ -61,20 +61,24 @@ export default {
   methods: {
     save: function(){
         let self = this;
-        const url = 'http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/'
+
+        let request = {
+        url: "http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/",
+        data: JSON.stringify(self.troubleTicket),
+        method: 'POST',
+        headers : {
+          "Content-Type" : "application/json"
+          }
+        }
+
         console.log( "Save: ", JSON.stringify(self.troubleTicket))
-        axios.post(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          data: JSON.stringify(self.troubleTicket)
-        })
+  
+        axios(request)
         .then(function (response) {
             this.$emit('updatecontext', self.troubleTicket)
         })
         .catch(function (error) {
-          console.log(error)
+          console.log( 'ERROR: ', JSON.stringify(error))
         })
       }
   }
