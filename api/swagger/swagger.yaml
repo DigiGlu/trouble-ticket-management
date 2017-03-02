@@ -11,7 +11,32 @@ consumes:
   - application/json
 produces:
   - application/json
+  - application/hal+json
 paths:
+  '/hal/troubleTicket':
+    x-swagger-router-controller: troubleTicketHAL
+    get:
+      tags:
+        - troubleTicket
+      operationId: troubleTicketFindHAL
+      produces:
+        - application/hal+json
+      summary: troubleTicketFind
+      description: ''
+      deprecated: false
+      parameters:
+        - name: fields
+          in: query
+          required: false
+          description: ''
+          type: string
+      responses:
+        '200':
+          description: List of TroubleTicket
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TroubleTicketHAL'
   /troubleTicket:
     x-swagger-router-controller: troubleTicket
     post:
@@ -36,6 +61,8 @@ paths:
       tags:
         - troubleTicket
       operationId: troubleTicketFind
+      produces:
+        - application/json
       summary: troubleTicketFind
       description: ''
       deprecated: false
@@ -212,6 +239,57 @@ definitions:
       role:
         type: string
   TroubleTicket:
+    required:
+      - status
+      - statusChangeReason
+    type: object
+    properties:
+      id:
+        type: string
+      correlationId:
+        type: string
+      description:
+        type: string
+      severity:
+        type: string
+      type:
+        type: string
+      creationDate:
+        type: string
+        format: date
+      targetResolutionDate:
+        type: string
+        format: date
+      status:
+        type: string
+        enum:
+          - Submitted
+          - Rejected
+          - Acknowledged
+          - InProgress
+          - InProgressHeld
+          - InProgressPending
+          - Resolved
+          - Closed
+          - Cancelled
+      statusChangeReason:
+        type: string
+      statusChangeDate:
+        type: string
+        format: date
+      relatedParty:
+        type: array
+        items:
+          $ref: '#/definitions/RelatedParty'
+      relatedObject:
+        type: array
+        items:
+          $ref: '#/definitions/RelatedObject'
+      note:
+        type: array
+        items:
+          $ref: '#/definitions/Note'
+  TroubleTicketHAL:
     required:
       - status
       - statusChangeReason
