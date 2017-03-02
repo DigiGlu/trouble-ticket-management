@@ -38,6 +38,7 @@
       <button class="btn btn-default footer-btn" @click="$emit('cancelevent')">Cancel</button>
       <button class="btn btn-primary" @click="save()">Save</button>
     </div>
+  </div>
 </template>
 
 <script>
