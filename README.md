@@ -1,5 +1,8 @@
 ## Implementation of the TM Forum Trouble Ticket Management API
 
+### Overview
+![architecture]('/assets/TroubleTicketAPI Implementation.png')
+
 ### Getting started
 
 - Clone this repository locally
