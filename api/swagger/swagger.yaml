@@ -36,7 +36,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/TroubleTicketHAL'
+              $ref: '#/definitions/TroubleTicketListHAL'
   /troubleTicket:
     x-swagger-router-controller: troubleTicket
     post:
@@ -295,6 +295,24 @@ definitions:
       - statusChangeReason
     type: object
     properties:
+      '_links':
+        type: object
+        properties:
+          self:
+            type: object
+            properties:
+              href:
+                type: string
+      '_stateTransition':
+        type: object
+        properties:
+          acknowledge:
+            type: object
+            properties:
+              verb:
+                type: string
+              href:
+                type: string
       id:
         type: string
       correlationId:
@@ -340,6 +358,41 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Note'
+  TroubleTicketListHAL:
+    type: object
+    properties:
+      '_links':
+        type: object
+        properties:
+          self:
+            type: object
+            properties:
+              href:
+                type: string
+          next:
+            type: object
+            properties:
+              href:
+                type: string
+          previous:
+            type: object
+            properties:
+              href:
+                type: string
+          first:
+            type: object
+            properties:
+              href:
+                type: string
+          last:
+            type: object
+            properties:
+              href:
+                type: string
+      item:
+        type: array
+        items:
+          $ref: '#/definitions/TroubleTicketHAL'
   Hub:
     type: object
     properties:
