@@ -50,6 +50,9 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
     collection.find({}).toArray(function(err, docs) {
         assert.equal(err, null);
 
+        // slice page
+
+        docs = docs.slice( firstitem, lastitem )
         // remove _id MongoDB attribute
 
         docs.forEach( function( item ) {
@@ -72,16 +75,14 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
             item: []
           },
           _embedded: { 
-            item: docs.slice( firstitem, lastitem )          
+            item: docs          
           }
         }  
 
         // Add array of links
         docs.forEach( function( item ) {
             halresp._links.item.push( {
-                self: {
-                    href: baseURL.concat( "/" ).concat( item.id )
-                    }
+                  href: baseURL.concat( "/" ).concat( item.id )
                 } ) 
         }) 
 
