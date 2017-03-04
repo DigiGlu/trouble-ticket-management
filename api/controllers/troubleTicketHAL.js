@@ -40,6 +40,8 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
     const firstitem = (pageno-1)*pagesize
     const lastitem = firstitem + pagesize
 
+    const baseURL = req.url.slice( 0, req.url.indexOf("?") )
+
     // Get the documents collection
  
     var collection = db.collection('troubleTicket');
@@ -47,7 +49,47 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
     // Find some documents
     collection.find({}).toArray(function(err, docs) {
         assert.equal(err, null);
-        res.json( docs.slice( firstitem, lastitem ) );
+
+        // remove _id MongoDB attribute
+
+        docs.forEach( function( item ) {
+            delete item["_id"]
+
+            // create _links
+
+            item._links= {
+                self: {
+                    href: baseURL.concat( "/" ).concat( item.id )
+                    }
+                }
+        }) 
+
+        // create HAL response
+
+        var halresp = { 
+          _links: { 
+            self: { href: req.url },
+            item: []
+          },
+          _embedded: { 
+            item: docs.slice( firstitem, lastitem )          
+          }
+        }  
+
+        // Add array of links
+        docs.forEach( function( item ) {
+            halresp._links.item.push( {
+                self: {
+                    href: baseURL.concat( "/" ).concat( item.id )
+                    }
+                } ) 
+        }) 
+
+        if ( docs.length > (pageno * pagesize) ) {
+          halresp._links.next = { href: baseURL.concat("?page=").concat(pageno+1)}
+        }
+
+        res.json( halresp );
         });
     })
   }
