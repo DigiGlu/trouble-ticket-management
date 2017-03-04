@@ -1,7 +1,7 @@
 ## Implementation of the TM Forum Trouble Ticket Management API
 
 ### Overview
-![architecture]('/docs/overview.png')
+![architecture](./docs/overview.png)
 
 ### Getting started
 
