@@ -37,6 +37,30 @@ paths:
             type: array
             items:
               $ref: '#/definitions/TroubleTicketListHAL'
+  '/hal/troubleTicket/{troubleTicketId}':
+    x-swagger-router-controller: troubleTicketHAL
+    get:
+      tags:
+        - troubleTicket
+      operationId: troubleTicketGetHAL
+      summary: troubleTicketGet
+      description: ''
+      deprecated: false
+      parameters:
+        - name: troubleTicketId
+          in: path
+          required: true
+          type: string
+        - name: fields
+          in: query
+          required: false
+          description: ''
+          type: string
+      responses:
+        '200':
+          description: TroubleTicket
+          schema:
+            $ref: '#/definitions/TroubleTicketHAL'
   /troubleTicket:
     x-swagger-router-controller: troubleTicket
     post:
@@ -296,6 +320,8 @@ definitions:
     type: object
     properties:
       '_links':
+        required:
+          - self
         type: object
         properties:
           self:
@@ -312,6 +338,53 @@ definitions:
               verb:
                 type: string
               href:
+                type: string
+              body:
+                type: string
+          reject:
+            type: object
+            properties:
+              verb:
+                type: string
+              href:
+                type: string
+              body:
+                type: string
+          progress:
+            type: object
+            properties:
+              verb:
+                type: string
+              href:
+                type: string
+              body:
+                type: string
+          resolve:
+            type: object
+            properties:
+              verb:
+                type: string
+              href:
+                type: string
+              body:
+                type: string
+          close:
+            type: object
+            properties:
+              verb:
+                type: string
+              href:
+                type: string
+              body:
+                type: string
+          cancel:
+            type: object
+            properties:
+              verb:
+                type: string
+              href:
+                type: string
+              body:
                 type: string
       id:
         type: string

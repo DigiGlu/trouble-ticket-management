@@ -68,8 +68,6 @@ export default {
         })
         .then(function (response) {
           self.troubleTicket = response.data
-          // delete the mongodb _id attribute from the JSON document
-          delete self.troubleTicket["_id"]
         })
         .catch(function (error) {
           console.log(error)

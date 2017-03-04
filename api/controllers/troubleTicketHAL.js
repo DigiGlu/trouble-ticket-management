@@ -59,11 +59,22 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
 
     const query = { id: troubleTicketId.toString() }
 
-    // Find some documents
+    // Find one document
     collection.findOne( query, function(err, doc) {
-      console.log ( "found: ", doc )
-        assert.equal(err, null);
-        res.json( doc );
-        });
+      // delete the mongodb _id attribute from the JSON document
+      delete doc["_id"]
+
+      // create _links
+
+      doc._links= {
+                self: {
+                    href: req.url
+                    }
+                }
+
+      assert.equal(err, null);
+
+      res.json( doc );
+      });
     })
   }
