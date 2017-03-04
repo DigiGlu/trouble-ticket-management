@@ -2,10 +2,10 @@
 
 **TM Forum [API Overview](https://projects.tmforum.org/wiki/display/API/Open+API+Table)**
 
+This is *work in progress*. It includes draft tests with hypermedia extensions (hal+json).
+
 ### Overview
 ![architecture](./docs/overview.png)
-
-This is *work in progress*. It includes draft tests with hypermedia extensions (hal+json).
 
 ### Getting started
 

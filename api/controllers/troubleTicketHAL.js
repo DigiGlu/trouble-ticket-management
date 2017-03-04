@@ -31,6 +31,15 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
   MongoClient.connect(config.db_url, function(err, db) {
     assert.equal(null, err);
 
+    var pageno = req.swagger.params.page.value ? parseInt(req.swagger.params.page.value) : 1;
+
+    // Fixed page size for now
+
+    const pagesize = 10
+
+    const firstitem = (pageno-1)*pagesize
+    const lastitem = firstitem + pagesize
+
     // Get the documents collection
  
     var collection = db.collection('troubleTicket');
@@ -38,7 +47,7 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
     // Find some documents
     collection.find({}).toArray(function(err, docs) {
         assert.equal(err, null);
-        res.json( docs );
+        res.json( docs.slice( firstitem, lastitem ) );
         });
     })
   }

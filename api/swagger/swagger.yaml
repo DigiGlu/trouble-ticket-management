@@ -30,11 +30,16 @@ paths:
           required: false
           description: ''
           type: string
+        - name: page
+          in: query
+          required: false
+          description: ''
+          type: integer
       responses:
         '200':
           description: List of TroubleTicket
           schema:
-            type: array
+            type: object
             items:
               $ref: '#/definitions/TroubleTicketListHAL'
   '/hal/troubleTicket/{troubleTicketId}':
@@ -462,10 +467,20 @@ definitions:
             properties:
               href:
                 type: string
-      item:
-        type: array
-        items:
-          $ref: '#/definitions/TroubleTicketHAL'
+          item:
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+      '_embedded':
+        type: object
+        properties:
+          item:
+            type: array
+            items:
+              $ref: '#/definitions/TroubleTicketHAL'
   Hub:
     type: object
     properties:
