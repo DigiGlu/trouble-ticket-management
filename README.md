@@ -5,6 +5,8 @@
 ### Overview
 ![architecture](./docs/overview.png)
 
+This is *work in progress*. It includes draft tests with hypermedia extensions (hal+json).
+
 ### Getting started
 
 - Clone this repository locally
