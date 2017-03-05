@@ -50,6 +50,8 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
     collection.find({}).toArray(function(err, docs) {
         assert.equal(err, null);
 
+        const totalsize = docs.length
+
         // slice page
 
         docs = docs.slice( firstitem, lastitem )
@@ -86,9 +88,19 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
                 } ) 
         }) 
 
-        if ( docs.length > (pageno * pagesize) ) {
+        // Create pagination links
+
+        if ( totalsize > (pageno * pagesize) ) {
           halresp._links.next = { href: baseURL.concat("?page=").concat(pageno+1)}
         }
+
+        halresp._links.first = { href: baseURL.concat("?page=1")}
+
+        if ( pageno > 1 ) {
+          halresp._links.previous = { href: baseURL.concat("?page=").concat(pageno-1)}          
+        } 
+
+        halresp._links.last = { href: baseURL.concat("?page=").concat(Math.floor(totalsize/pagesize)) }
 
         res.json( halresp );
         });
