@@ -1,0 +1,5 @@
+{
+	"server_url": "http://localhost:10010",
+	"api_endpoint": "/DSTroubleTicket/api/troubleTicketManagement/v2/",
+	"api_endpoint_hal": "/DSTroubleTicket/api/troubleTicketManagement/v2/hal/"
+}

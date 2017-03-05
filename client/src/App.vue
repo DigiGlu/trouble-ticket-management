@@ -12,7 +12,9 @@
           <a class="navbar-brand" href="/">Trouble Ticket API</a>
         </div>
         <div class="collapse navbar-collapse" id="experimenz-nav">
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-left">
+            <li><router-link to="/"><a>V2 API</a></router-link></li>
+            <li><router-link to="/hal"><a>HAL API</a></router-link></li>
           </ul>
         </div>
       </div>

@@ -12,13 +12,18 @@ import troubleTicketList from './components/troubleTicketList.vue'
 import troubleTicketNew from './components/troubleTicketNew.vue'
 import troubleTicketEdit from './components/troubleTicketEdit.vue'
 
+// Component views for HAL
+
+import troubleTicketListHAL from './components/troubleTicketListHAL.vue'
+import troubleTicketEditHAL from './components/troubleTicketEditHAL.vue'
+
 Vue.use(VueRouter)
 Vue.use(VueResource)
 
 var router = new VueRouter({
   routes: [
     {
-    // LIST
+    // LIST V2
     path: '/',
     component: troubleTicketList,
     children: [{
@@ -31,6 +36,16 @@ var router = new VueRouter({
       path: '/new',
       name: 'troubleTicketNew',
       component: troubleTicketNew
+      }]
+    }, {
+    // LIST HAL
+    path: '/hal',
+    component: troubleTicketListHAL,
+    children: [{
+      // EDIT
+      path: '/hal/edit/:troubleTicketId',
+      name: 'troubleTicketEditHAL',
+      component: troubleTicketEditHAL
       }]
     }]
 })

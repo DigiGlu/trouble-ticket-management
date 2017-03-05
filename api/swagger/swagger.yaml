@@ -474,6 +474,14 @@ definitions:
               properties:
                 href:
                   type: string
+      page:
+        type: integer
+      pagesize:
+        type: integer
+      totalpages:
+        type: integer
+      totalrecords:
+        type: integer
       '_embedded':
         type: object
         properties:

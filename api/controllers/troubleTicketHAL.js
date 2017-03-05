@@ -35,7 +35,7 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
 
     // Fixed page size for now
 
-    const pagesize = 10
+    const pagesize = 5
 
     const firstitem = (pageno-1)*pagesize
     const lastitem = firstitem + pagesize
@@ -88,6 +88,13 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
                 } ) 
         }) 
 
+        // Pagination attributes
+
+        halresp.page = pageno
+        halresp.totalrecords = totalsize
+        halresp.pagesize = pagesize
+        halresp.totalpages = Math.ceil(totalsize/pagesize)
+
         // Create pagination links
 
         if ( totalsize > (pageno * pagesize) ) {
@@ -100,7 +107,7 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
           halresp._links.previous = { href: baseURL.concat("?page=").concat(pageno-1)}          
         } 
 
-        halresp._links.last = { href: baseURL.concat("?page=").concat(Math.floor(totalsize/pagesize)) }
+        halresp._links.last = { href: baseURL.concat("?page=").concat(Math.ceil(totalsize/pagesize)) }
 
         res.json( halresp );
         });
