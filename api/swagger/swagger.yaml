@@ -334,7 +334,7 @@ definitions:
             properties:
               href:
                 type: string
-      '_stateTransition':
+      '_stateTransitions':
         type: object
         properties:
           acknowledge:

@@ -1,5 +1,5 @@
 {
-	"server_url": "http://tmf-api.experimenz.co.uk:10010",
+	"server_url": "http://tmf-api.experimenz.co.uk:80",
 	"api_endpoint": "/DSTroubleTicket/api/troubleTicketManagement/v2/",
 	"api_endpoint_hal": "/DSTroubleTicket/api/troubleTicketManagement/v2/hal/"
 }

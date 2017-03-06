@@ -44,6 +44,8 @@
 <script>
 import axios from 'axios'
 
+var config = require( '../config.json' );
+
 export default {
   name: 'troubleTicketNew',
   data () {
@@ -63,7 +65,7 @@ export default {
         let self = this;
 
         let request = {
-        url: "http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/",
+        url: config.server_url + config.api_endpoint + "troubleTicket",
         data: JSON.stringify(self.troubleTicket),
         method: 'POST',
         headers : {

@@ -44,6 +44,8 @@
 <script>
 import axios from 'axios'
 
+var config = require( '../config.json' );
+
 export default {
   name: 'troubleTicketEdit',
   data () {
@@ -58,7 +60,8 @@ export default {
   methods: {
     fetchData: function(){
         let self = this;
-        const url = 'http://localhost:10010/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/' + this.troubleTicketId
+        const url = config.server_url + config.api_endpoint_hal + 
+          "troubleTicket/" + this.troubleTicketId
         axios.get(url, {
           dataType: 'json',
           headers: {
