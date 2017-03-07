@@ -70,7 +70,8 @@ export default {
         method: 'POST',
         headers : {
           "Content-Type" : "application/json"
-          }
+          },
+          mode: 'no-cors' 
         }
 
         console.log( "Save: ", JSON.stringify(self.troubleTicket))

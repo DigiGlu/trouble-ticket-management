@@ -107,7 +107,8 @@ export default {
           dataType: 'json',
           headers: {
             'Accept': 'application/hal+json'
-          }
+          },
+          mode: 'no-cors' 
         })
         .then(function (response) {
           self.troubleTicketList = response.data._embedded.item
