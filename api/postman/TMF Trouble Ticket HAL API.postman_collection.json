@@ -135,6 +135,31 @@
 				"description": "Find one trouble tickets (with HAL)"
 			},
 			"response": []
+		},
+		{
+			"name": "troubleTicketReplace",
+			"request": {
+				"url": "http://tmf-api.experimenz.co.uk/DSTroubleTicket/api/troubleTicketManagement/v2/troubleTicket/7",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":\"7\",\"type\":\"Invoice dispute\",\"severity\":\"medium\",\"description\":\"Dispute due to total service outage\",\"status\":\"Submitted\",\"statusChangeReason\":\"Initial submission\", \"note\": [{ \"author\": \"Dirk Rejahl\", \"text\":\"Customer called CC\"}]}"
+				},
+				"description": "Replace a ticket"
+			},
+			"response": []
 		}
 	]
 }
