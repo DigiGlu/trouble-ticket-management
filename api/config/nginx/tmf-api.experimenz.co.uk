@@ -37,5 +37,10 @@ server {
     add_header 'X-XSS-Protection'                 '1; mode=block';
 
    }
+
+  # logs paths
+  access_log /home/ubuntu/logs/access.log;
+  error_log  /home/ubuntu/logs/error.log;
+
 }
 
