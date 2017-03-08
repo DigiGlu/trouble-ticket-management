@@ -10,15 +10,23 @@ function nextStates ( currentState ) {
 	switch( currentState ) {
 		case "Submitted": {
 			targetStates = ["Acknowledged", "Rejected"];
+			break;
 		}
 		case "Acknowledged":{
 			targetStates = ["InProgress", "Cancelled"];
+			break;
 		}
 		case "InProgress": {
 			targetStates = ["Resolved", "Cancelled" ];
+			break;
 		}
 		case "Resolved": {
 			targetStates = ["Closed"];
+			break;
+		}
+		case "Rejected": {
+			targetStates = ["Closed"];
+			break;
 		}
 	}
 

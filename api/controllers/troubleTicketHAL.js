@@ -44,12 +44,12 @@ module.exports = {
 
     const query = { id: troubleTicketId.toString() }
 
-    console.log( "Update: ", JSON.stringify( query) )
-
     // Update the document
     // db.troubleTicket.update( {id: "123"}, { $set: { status: "Rejected"} })
 
     var patchDoc = { $set: troubleTicket }
+
+    // console.log( "Update: ", JSON.stringify( query), ", ", JSON.stringify(patchDoc) )
 
     collection.update( query, patchDoc, function(err, doc) {
         assert.equal(err, null);
@@ -119,6 +119,10 @@ module.exports = {
                   {
                     name: "status",
                     value: state
+                  },
+                  {
+                    name: "statusChangeReason",
+                    type: "string"
                   }
                 ]
               })
@@ -198,6 +202,31 @@ module.exports = {
                     href: req.url
                     }
                 }
+
+      // create _actions
+
+      doc._actions = [];
+
+      var targetStates = troubleTicketStates.nextStates( doc.status );
+
+      targetStates.forEach( function( state ) {
+        doc._actions.push( {
+          name: state,
+          title: state,
+          method: "PATCH",
+          href: "abc",
+          fields: [ 
+            {
+              name: "status",
+              value: state
+            },
+            {
+              name: "statusChangeReason",
+              type: "string"
+            }
+          ]
+        })
+      })
 
       assert.equal(err, null);
 
