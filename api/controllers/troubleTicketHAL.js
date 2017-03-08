@@ -7,6 +7,8 @@ var util = require('util');
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
+var troubleTicketStates = require('../utilities/troubleTicketStates')
+
 /*
  Once you 'require' a module you can reference the things that it exports.  These are defined in module.exports.
 
@@ -20,8 +22,41 @@ var assert = require('assert');
   we specify that in the exports of this module that 'hello' maps to the function named 'hello'
  */
 
-module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
+module.exports = { 
+  troubleTicketFindHAL, 
+  troubleTicketGetHAL, 
+  troubleTicketPatchHAL };
 
+  // Update troubleTicket by Id: PATCH /v2/troubleTicket/{id}
+
+  function troubleTicketPatchHAL(req, res) {
+
+  var troubleTicket = req.swagger.params.troubleTicket.value;
+  var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
+
+  // Use connect method to connect to the server
+  MongoClient.connect(config.db_url, function(err, db) {
+    assert.equal(null, err);
+
+    // Get the documents collection
+ 
+    var collection = db.collection('troubleTicket');
+
+    const query = { id: troubleTicketId.toString() }
+
+    console.log( "Update: ", JSON.stringify( query) )
+
+    // Update the document
+    // db.troubleTicket.update( {id: "123"}, { $set: { status: "Rejected"} })
+
+    var patchDoc = { $set: troubleTicket }
+
+    collection.update( query, patchDoc, function(err, doc) {
+        assert.equal(err, null);
+        res.json( doc );
+        });
+    })
+  }
 
   // Find a troubleTicket: GET /v2/hal/troubleTicket/
 
@@ -67,6 +102,27 @@ module.exports = { troubleTicketFindHAL, troubleTicketGetHAL };
                     href: baseURL.concat( "/" ).concat( item.id )
                     }
                 }
+
+            // create _actions
+
+            item._actions = [];
+
+            var targetStates = troubleTicketStates.nextStates( item.status );
+
+            targetStates.forEach( function( state ) {
+              item._actions.push( {
+                name: state,
+                title: state,
+                method: "PATCH",
+                href: "abc",
+                fields: [ 
+                  {
+                    name: "status",
+                    value: state
+                  }
+                ]
+              })
+            })
         }) 
 
         // create HAL response

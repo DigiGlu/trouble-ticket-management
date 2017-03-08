@@ -66,6 +66,28 @@ paths:
           description: TroubleTicket
           schema:
             $ref: '#/definitions/TroubleTicketHAL'
+    patch:
+      tags:
+        - troubleTicket
+      operationId: troubleTicketPatchHAL
+      summary: troubleTicketPatch
+      description: ''
+      deprecated: false
+      parameters:
+        - name: troubleTicketId
+          in: path
+          required: true
+          type: string
+        - name: troubleTicket
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TroubleTicket'
+      responses:
+        '200':
+          description: Success TroubleTicket
+          schema:
+            $ref: '#/definitions/TroubleTicket'
   /troubleTicket:
     x-swagger-router-controller: troubleTicket
     post:
@@ -334,63 +356,30 @@ definitions:
             properties:
               href:
                 type: string
-      '_stateTransitions':
-        type: object
-        properties:
-          acknowledge:
-            type: object
-            properties:
-              verb:
-                type: string
-              href:
-                type: string
-              body:
-                type: string
-          reject:
-            type: object
-            properties:
-              verb:
-                type: string
-              href:
-                type: string
-              body:
-                type: string
-          progress:
-            type: object
-            properties:
-              verb:
-                type: string
-              href:
-                type: string
-              body:
-                type: string
-          resolve:
-            type: object
-            properties:
-              verb:
-                type: string
-              href:
-                type: string
-              body:
-                type: string
-          close:
-            type: object
-            properties:
-              verb:
-                type: string
-              href:
-                type: string
-              body:
-                type: string
-          cancel:
-            type: object
-            properties:
-              verb:
-                type: string
-              href:
-                type: string
-              body:
-                type: string
+      '_actions':
+        type: array
+        items:
+          properties:
+            name:
+              type: string
+            title:
+              type: string
+            method:
+              type: string
+            href:
+              type: string
+            type:
+              type: string
+            fields:
+              type: array
+              items:
+                properties:
+                  name:
+                    type: string
+                  type:
+                    type: string
+                  value:
+                    type: string
       id:
         type: string
       correlationId:
