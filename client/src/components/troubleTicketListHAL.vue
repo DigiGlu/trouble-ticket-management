@@ -40,7 +40,7 @@
               edit
             </button>
             <button v-for="action in troubleTicket._actions" 
-              type="button" class="btn btn-warning btn-xs"
+              type="button" class="btn btn-info btn-xs"
               v-on:click="triggerAction(action)">
               {{ action.title }}
             </button>
