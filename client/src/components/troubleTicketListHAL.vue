@@ -16,8 +16,10 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Type</th>
           <th>Severity</th>
           <th>Status</th>
+          <th>Status change reason</th>
           <th>Description</th>
           <th>Action</th>
         </tr>
@@ -25,8 +27,10 @@
       <tbody>
         <tr v-for="troubleTicket in troubleTicketList">
           <td> {{ troubleTicket.id }} </td>
+          <td> {{ troubleTicket.type }} </td>
           <td> {{ troubleTicket.severity }} </td>
           <td> {{ troubleTicket.status }} </td>
+          <td> {{ troubleTicket.statusChangeReason }} </td>
           <td> {{ troubleTicket.description }} </td>
           <td>
             <button type="button" class="btn btn-success btn-xs"
@@ -34,6 +38,11 @@
               v-on:click="$router.push({name: 'troubleTicketEdit', params: {troubleTicketId: troubleTicket.id} })">
               <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
               edit
+            </button>
+            <button v-for="action in troubleTicket._actions" 
+              type="button" class="btn btn-warning btn-xs"
+              v-on:click="triggerAction(action)">
+              {{ action.title }}
             </button>
               <div class="modal fade" id="troubleTicketModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -125,6 +134,9 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
+      },
+      triggerAction: function(action) {
+        alert(JSON.stringify(action,5,"\t"))
       },
       gotoFirstPage: function() {
         this.fetchData( config.server_url + this.firstPageURL )

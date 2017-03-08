@@ -25,8 +25,10 @@
       <tbody>
         <tr v-for="troubleTicket in troubleTicketList">
           <td> {{ troubleTicket.id }} </td>
+          <td> {{ troubleTicket.type }} </td>
           <td> {{ troubleTicket.severity }} </td>
           <td> {{ troubleTicket.status }} </td>
+          <td> {{ troubleTicket.statusChangeReason }} </td>
           <td> {{ troubleTicket.description }} </td>
           <td>
             <button type="button" class="btn btn-success btn-xs"
