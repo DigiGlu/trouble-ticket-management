@@ -87,7 +87,7 @@ paths:
         '200':
           description: Success TroubleTicket
           schema:
-            $ref: '#/definitions/TroubleTicket'
+            $ref: '#/definitions/TroubleTicketHAL'
   /troubleTicket:
     x-swagger-router-controller: troubleTicket
     post:

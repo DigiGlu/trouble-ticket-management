@@ -53,6 +53,12 @@ module.exports = {
 
     collection.update( query, patchDoc, function(err, doc) {
         assert.equal(err, null);
+
+        // Find one document
+        collection.findOne( query, function(err, doc) {
+            doc = generateTroubleTicketDoc( doc );
+         })
+
         res.json( doc );
         });
     })
@@ -88,45 +94,11 @@ module.exports = {
         const totalsize = docs.length
 
         // slice page
-
         docs = docs.slice( firstitem, lastitem )
-        // remove _id MongoDB attribute
 
+        // Generate Trouble Ticket
         docs.forEach( function( item ) {
-            delete item["_id"]
-
-            // create _links
-
-            item._links= {
-                self: {
-                    href: baseURL.concat( "/" ).concat( item.id )
-                    }
-                }
-
-            // create _actions
-
-            item._actions = [];
-
-            var targetStates = troubleTicketStates.nextStates( item.status );
-
-            targetStates.forEach( function( state ) {
-              item._actions.push( {
-                name: state,
-                title: state,
-                method: "PATCH",
-                href: "abc",
-                fields: [ 
-                  {
-                    name: "status",
-                    value: state
-                  },
-                  {
-                    name: "statusChangeReason",
-                    type: "string"
-                  }
-                ]
-              })
-            })
+          item = generateTroubleTicketDoc( item, baseURL.concat( "/" ).concat( item.id ) )
         }) 
 
         // create HAL response
@@ -192,45 +164,51 @@ module.exports = {
 
     // Find one document
     collection.findOne( query, function(err, doc) {
-      // delete the mongodb _id attribute from the JSON document
-      delete doc["_id"]
-
-      // create _links
-
-      doc._links= {
-                self: {
-                    href: req.url
-                    }
-                }
-
-      // create _actions
-
-      doc._actions = [];
-
-      var targetStates = troubleTicketStates.nextStates( doc.status );
-
-      targetStates.forEach( function( state ) {
-        doc._actions.push( {
-          name: state,
-          title: state,
-          method: "PATCH",
-          href: "abc",
-          fields: [ 
-            {
-              name: "status",
-              value: state
-            },
-            {
-              name: "statusChangeReason",
-              type: "string"
-            }
-          ]
-        })
-      })
-
+      doc= generateTroubleTicketDoc( doc, req.url );
+  
       assert.equal(err, null);
 
       res.json( doc );
-      });
-    })
+      })
+    });
   }
+
+function generateTroubleTicketDoc( doc, url ) {
+  // delete the mongodb _id attribute from the JSON document
+  delete doc["_id"]
+
+  // create _links
+
+  doc._links= {
+            self: {
+                href: url
+                }
+            }
+
+  // create _actions
+
+  doc._actions = [];
+
+  var targetStates = troubleTicketStates.nextStates( doc.status );
+
+  targetStates.forEach( function( state ) {
+    doc._actions.push( {
+      name: state,
+      title: state,
+      method: "PATCH",
+      href: url,
+      fields: [ 
+        {
+          name: "status",
+          value: state
+        },
+        {
+          name: "statusChangeReason",
+          type: "string"
+        }
+      ]
+    })
+  })
+
+  return doc;
+}
