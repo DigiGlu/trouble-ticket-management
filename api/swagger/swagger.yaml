@@ -35,6 +35,11 @@ paths:
           required: false
           description: ''
           type: integer
+        - name: embed
+          in: query
+          required: false
+          description: 'Embed resources in response'
+          type: boolean
       responses:
         '200':
           description: List of TroubleTicket

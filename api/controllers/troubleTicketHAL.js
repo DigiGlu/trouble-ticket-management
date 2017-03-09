@@ -107,11 +107,15 @@ module.exports = {
           _links: { 
             self: { href: req.url },
             item: []
-          },
-          _embedded: { 
-            item: docs          
           }
         }  
+
+        // add embedded resources if requested
+
+       if ( req.swagger.params.embed.value == true ) {
+          halresp._embed = {item: []}
+          halresp._embed.item = docs 
+          }
 
         // Add array of links
         docs.forEach( function( item ) {
