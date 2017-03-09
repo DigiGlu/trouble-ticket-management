@@ -104,7 +104,7 @@ export default {
       }},
   created: function() {
     const url = config.server_url + config.api_endpoint_hal +
-        "troubleTicket?embed=true,page=1"
+        "troubleTicket?embed=true&page=1"
 
     this.fetchData( url )
   },
@@ -120,7 +120,7 @@ export default {
           mode: 'no-cors' 
         })
         .then(function (response) {
-          self.troubleTicketList = response.data._embedded.item
+          self.troubleTicketList = response.data._embed.item
 
           self.totalpages = response.data.totalpages
           self.totalrecords = response.data.totalrecords
@@ -139,16 +139,16 @@ export default {
         alert(JSON.stringify(action,5,"\t"))
       },
       gotoFirstPage: function() {
-        this.fetchData( config.server_url + this.firstPageURL + ",embed=true" )
+        this.fetchData( config.server_url + this.firstPageURL + "&embed=true" )
       },
       gotoPrevPage: function() {
-        this.fetchData( config.server_url + this.prevPageURL + ",embed=true" )
+        this.fetchData( config.server_url + this.prevPageURL + "&embed=true" )
       },
       gotoNextPage: function() {
-        this.fetchData( config.server_url + this.nextPageURL + ",embed=true" )
+        this.fetchData( config.server_url + this.nextPageURL + "&embed=true" )
       },
       gotoLastPage: function() {
-        this.fetchData( config.server_url + this.lastPageURL + ",embed=true" )
+        this.fetchData( config.server_url + this.lastPageURL + "&embed=true" )
       },
       troubleTicketCreate: function(troubleTicket) {
           $('#troubleTicketModal').modal('hide');
