@@ -9,6 +9,13 @@ var assert = require('assert');
 
 var troubleTicketStates = require('../utilities/troubleTicketStates')
 
+// Mongo URL
+
+var argv = require('minimist')(process.argv);
+var dbhost = argv.dbhost ? argv.dbhost : config.db_host;
+const mongourl = config.db_prot+"://"+dbhost+":"
+        +config.db_port+"/"+config.db_name
+
 /*
  Once you 'require' a module you can reference the things that it exports.  These are defined in module.exports.
 
@@ -35,7 +42,7 @@ module.exports = {
   var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 
   // Use connect method to connect to the server
-  MongoClient.connect(config.db_url, function(err, db) {
+  MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
 
     // Get the documents collection
@@ -69,7 +76,7 @@ module.exports = {
   function troubleTicketFindHAL(req, res) {
 
   // Use connect method to connect to the server
-  MongoClient.connect(config.db_url, function(err, db) {
+  MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
 
     var pageno = req.swagger.params.page.value ? parseInt(req.swagger.params.page.value) : 1;
@@ -163,7 +170,7 @@ module.exports = {
   var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 
   // Use connect method to connect to the server
-  MongoClient.connect(config.db_url, function(err, db) {
+  MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
 
     // Get the documents collection

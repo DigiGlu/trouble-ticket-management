@@ -7,6 +7,13 @@ var util = require('util');
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
+// Mongo URL
+
+var argv = require('minimist')(process.argv);
+var dbhost = argv.dbhost ? argv.dbhost : config.db_host;
+const mongourl = config.db_prot+"://"+dbhost+":"
+        +config.db_port+"/"+config.db_name
+
 /*
  Once you 'require' a module you can reference the things that it exports.  These are defined in module.exports.
 
@@ -28,7 +35,7 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
   function troubleTicketFind(req, res) {
 
   // Use connect method to connect to the server
-  MongoClient.connect(config.db_url, function(err, db) {
+  MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
 
     // Get the documents collection
@@ -50,7 +57,7 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
   var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 
   // Use connect method to connect to the server
-  MongoClient.connect(config.db_url, function(err, db) {
+  MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
 
     // Get the documents collection
@@ -78,7 +85,7 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
   var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 
   // Use connect method to connect to the server
-  MongoClient.connect(config.db_url, function(err, db) {
+  MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
 
     // Get the documents collection
@@ -105,7 +112,7 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
     console.log( "Create: ", JSON.stringify( troubleTicket) )
 
   // Use connect method to connect to the server
-  MongoClient.connect(config.db_url, function(err, db) {
+  MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
     console.log("Connected successfully to server");
 

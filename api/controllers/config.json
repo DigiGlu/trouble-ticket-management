@@ -1,3 +1,6 @@
 {
-	"db_url": "mongodb://localhost:27017/digiglu"
+	"db_prot": "mongodb",
+	"db_host": "localhost",
+	"db_port": 27017,
+	"db_name": "digiglu"
 }
