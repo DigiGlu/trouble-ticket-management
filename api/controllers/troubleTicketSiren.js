@@ -23,50 +23,12 @@ var troubleTicketStates = require('../utilities/troubleTicketStates')
  */
 
 module.exports = { 
-  troubleTicketFindHAL, 
-  troubleTicketGetHAL, 
-  troubleTicketPatchHAL };
-
-  // Update troubleTicket by Id: PATCH /v2/troubleTicket/{id}
-
-  function troubleTicketPatchHAL(req, res) {
-
-  var troubleTicket = req.swagger.params.troubleTicket.value;
-  var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
-
-  // Use connect method to connect to the server
-  MongoClient.connect(config.db_url, function(err, db) {
-    assert.equal(null, err);
-
-    // Get the documents collection
- 
-    var collection = db.collection('troubleTicket');
-
-    const query = { id: troubleTicketId.toString() }
-
-    // Update the document
-    // db.troubleTicket.update( {id: "123"}, { $set: { status: "Rejected"} })
-
-    var patchDoc = { $set: troubleTicket }
-
-    // console.log( "Update: ", JSON.stringify( query), ", ", JSON.stringify(patchDoc) )
-
-    collection.update( query, patchDoc, function(err, doc) {
-        assert.equal(err, null);
-
-        // Find one document
-        collection.findOne( query, function(err, doc) {
-            doc = generateTroubleTicketDoc( doc );
-         })
-
-        res.json( doc );
-        });
-    })
-  }
+  troubleTicketFindSiren, 
+  troubleTicketGetSiren };
 
   // Find a troubleTicket: GET /v2/hal/troubleTicket/
 
-  function troubleTicketFindHAL(req, res) {
+  function troubleTicketFindSiren(req, res) {
 
   // Use connect method to connect to the server
   MongoClient.connect(config.db_url, function(err, db) {
@@ -103,22 +65,16 @@ module.exports = {
 
         // create HAL response
 
-        var halresp = {};
-
-        // support v2 backward compatiblity if requested
-
-        if ( req.swagger.params.embed.value == "v2" ) {
-          halresp.troubleTicket = docs 
-          }
-
-        halresp._links = { 
+        var halresp = { 
+          _links: { 
             self: { href: req.url },
             item: []
-        }
-        
+          }
+        }  
+
         // add embedded resources if requested
 
-       if ( req.swagger.params.embed.value == "true" ) {
+       if ( req.swagger.params.embed.value == true ) {
           halresp._embed = {item: []}
           halresp._embed.item = docs 
           }
@@ -158,7 +114,7 @@ module.exports = {
 
   // Get one troubleTicket by Id: GET /v2/hal/troubleTicket/{id}
 
-  function troubleTicketGetHAL(req, res) {
+  function troubleTicketGetSiren(req, res) {
 
   var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 

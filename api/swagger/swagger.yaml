@@ -39,7 +39,7 @@ paths:
           in: query
           required: false
           description: 'Embed resources in response'
-          type: boolean
+          type: string
       responses:
         '200':
           description: List of TroubleTicket
@@ -93,6 +93,64 @@ paths:
           description: Success TroubleTicket
           schema:
             $ref: '#/definitions/TroubleTicketHAL'
+  '/siren/troubleTicket':
+    x-swagger-router-controller: troubleTicketSiren
+    get:
+      tags:
+        - troubleTicket
+      operationId: troubleTicketFindSiren
+      produces:
+        - application/hal+json
+      summary: troubleTicketFind
+      description: ''
+      deprecated: false
+      parameters:
+        - name: fields
+          in: query
+          required: false
+          description: ''
+          type: string
+        - name: page
+          in: query
+          required: false
+          description: ''
+          type: integer
+        - name: embed
+          in: query
+          required: false
+          description: 'Embed resources in response'
+          type: boolean
+      responses:
+        '200':
+          description: List of TroubleTicket
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/TroubleTicketListSiren'
+  '/siren/troubleTicket/{troubleTicketId}':
+    x-swagger-router-controller: troubleTicketSiren
+    get:
+      tags:
+        - troubleTicket
+      operationId: troubleTicketGetSiren
+      summary: troubleTicketGet
+      description: ''
+      deprecated: false
+      parameters:
+        - name: troubleTicketId
+          in: path
+          required: true
+          type: string
+        - name: fields
+          in: query
+          required: false
+          description: ''
+          type: string
+      responses:
+        '200':
+          description: TroubleTicket
+          schema:
+            $ref: '#/definitions/TroubleTicketSiren'
   /troubleTicket:
     x-swagger-router-controller: troubleTicket
     post:
@@ -483,6 +541,148 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/TroubleTicketHAL'
+      'troubleTicket':
+        type: array
+        items:
+          $ref: '#/definitions/TroubleTicketHAL'
+  TroubleTicketSiren:
+    required:
+      - status
+      - statusChangeReason
+    type: object
+    properties:
+      '_links':
+        required:
+          - self
+        type: object
+        properties:
+          self:
+            type: object
+            properties:
+              href:
+                type: string
+      '_actions':
+        type: array
+        items:
+          properties:
+            name:
+              type: string
+            title:
+              type: string
+            method:
+              type: string
+            href:
+              type: string
+            type:
+              type: string
+            fields:
+              type: array
+              items:
+                properties:
+                  name:
+                    type: string
+                  type:
+                    type: string
+                  value:
+                    type: string
+      id:
+        type: string
+      correlationId:
+        type: string
+      description:
+        type: string
+      severity:
+        type: string
+      type:
+        type: string
+      creationDate:
+        type: string
+        format: date
+      targetResolutionDate:
+        type: string
+        format: date
+      status:
+        type: string
+        enum:
+          - Submitted
+          - Rejected
+          - Acknowledged
+          - InProgress
+          - InProgressHeld
+          - InProgressPending
+          - Resolved
+          - Closed
+          - Cancelled
+      statusChangeReason:
+        type: string
+      statusChangeDate:
+        type: string
+        format: date
+      relatedParty:
+        type: array
+        items:
+          $ref: '#/definitions/RelatedParty'
+      relatedObject:
+        type: array
+        items:
+          $ref: '#/definitions/RelatedObject'
+      note:
+        type: array
+        items:
+          $ref: '#/definitions/Note'
+  TroubleTicketListSiren:
+    type: object
+    properties:
+      '_links':
+        type: object
+        properties:
+          self:
+            type: object
+            properties:
+              href:
+                type: string
+          next:
+            type: object
+            properties:
+              href:
+                type: string
+          previous:
+            type: object
+            properties:
+              href:
+                type: string
+          first:
+            type: object
+            properties:
+              href:
+                type: string
+          last:
+            type: object
+            properties:
+              href:
+                type: string
+          item:
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+      page:
+        type: integer
+      pagesize:
+        type: integer
+      totalpages:
+        type: integer
+      totalrecords:
+        type: integer
+      '_embedded':
+        type: object
+        properties:
+          item:
+            type: array
+            items:
+              $ref: '#/definitions/TroubleTicketSiren'
   Hub:
     type: object
     properties:

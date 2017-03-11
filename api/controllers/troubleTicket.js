@@ -64,10 +64,9 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
       // delete the mongodb _id attribute from the JSON document
       delete doc["_id"]
 
-      console.log ( "found: ", doc )
-        assert.equal(err, null);
-        res.json( doc );
-        });
+      assert.equal(err, null);
+      res.json( doc );
+      });
     })
   }
 
