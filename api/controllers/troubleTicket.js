@@ -109,12 +109,9 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
   function troubleTicketCreate(req, res) {
   var troubleTicket = req.swagger.params.troubleTicket.value;
 
-    console.log( "Create: ", JSON.stringify( troubleTicket) )
-
   // Use connect method to connect to the server
   MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
-    console.log("Connected successfully to server");
 
     // Get the documents collection
     var collection = db.collection('troubleTicket');
@@ -124,5 +121,5 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
       });
     db.close();
     });
-    res.json("");
+    res.json(troubleTicket);
    }

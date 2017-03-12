@@ -32,7 +32,8 @@ const mongourl = config.db_prot+"://"+dbhost+":"
 module.exports = { 
   troubleTicketFindHAL, 
   troubleTicketGetHAL, 
-  troubleTicketPatchHAL };
+  troubleTicketPatchHAL,
+  troubleTicketCreateHAL };
 
   // Update troubleTicket by Id: PATCH /v2/troubleTicket/{id}
 
@@ -189,6 +190,27 @@ module.exports = {
       })
     });
   }
+
+  // Create a new troubleTicket: POST /v2/troubleTicket
+
+  function troubleTicketCreateHAL(req, res) {
+  var troubleTicket = req.swagger.params.troubleTicket.value;
+
+  // Use connect method to connect to the server
+  MongoClient.connect(mongourl, function(err, db) {
+    assert.equal(null, err);
+
+    // Get the documents collection
+    var collection = db.collection('troubleTicket');
+    // Insert some documents
+    collection.insert( troubleTicket, function(err, result) {
+      assert.equal(err, null)
+      });
+    db.close();
+    });
+    res.json( generateTroubleTicketDoc( troubleTicket ));
+   }
+
 
 function generateTroubleTicketDoc( doc, url ) {
   // delete the mongodb _id attribute from the JSON document

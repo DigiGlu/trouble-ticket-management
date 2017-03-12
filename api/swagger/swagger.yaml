@@ -47,6 +47,24 @@ paths:
             type: object
             items:
               $ref: '#/definitions/TroubleTicketListHAL'
+    post:
+      tags:
+        - troubleTicket
+      operationId: troubleTicketCreateHAL
+      summary: troubleTicketCreate
+      description: ''
+      deprecated: false
+      parameters:
+        - name: troubleTicket
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TroubleTicket'
+      responses:
+        '201':
+          description: TroubleTicket
+          schema:
+            $ref: '#/definitions/TroubleTicketHAL'
   '/hal/troubleTicket/{troubleTicketId}':
     x-swagger-router-controller: troubleTicketHAL
     get:
