@@ -119,7 +119,7 @@ module.exports = {
     })
   }
 
-  // Get one troubleTicket by Id: GET /v2/hal/troubleTicket/{id}
+  // Get one troubleTicket by Id: GET /v2/siren/troubleTicket/{id}
 
   function troubleTicketGetSiren(req, res) {
 
@@ -151,6 +151,8 @@ function generateTroubleTicketDoc( doc, url ) {
   delete doc["_id"]
 
   // create _links
+
+  doc = { "class": "TroubleTicket", "properties": doc }
 
   doc._links= {
             self: {

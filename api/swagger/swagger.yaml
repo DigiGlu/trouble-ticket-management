@@ -564,11 +564,71 @@ definitions:
         items:
           $ref: '#/definitions/TroubleTicketHAL'
   TroubleTicketSiren:
-    required:
-      - status
-      - statusChangeReason
     type: object
     properties:
+      class:
+        type: array
+        items:
+          type: string
+      'properties':
+        required:
+          - status
+          - statusChangeReason
+        type: object
+        properties:
+          id:
+            type: string
+          correlationId:
+            type: string
+          description:
+            type: string
+          severity:
+            type: string
+          type:
+            type: string
+          creationDate:
+            type: string
+            format: date
+          targetResolutionDate:
+            type: string
+            format: date
+          status:
+            type: string
+            enum:
+              - Submitted
+              - Rejected
+              - Acknowledged
+              - InProgress
+              - InProgressHeld
+              - InProgressPending
+              - Resolved
+              - Closed
+              - Cancelled
+          statusChangeReason:
+            type: string
+          statusChangeDate:
+            type: string
+            format: date
+      entities:
+        type: array
+        items:
+          properties:
+            class:
+              type: array
+              items:
+                type: string
+            href:
+              type: array
+              items:
+                $ref: '#/definitions/RelatedParty'
+            relatedObject:
+              type: array
+              items:
+                $ref: '#/definitions/RelatedObject'
+            note:
+              type: array
+              items:
+                $ref: '#/definitions/Note'
       '_links':
         required:
           - self
@@ -603,51 +663,6 @@ definitions:
                     type: string
                   value:
                     type: string
-      id:
-        type: string
-      correlationId:
-        type: string
-      description:
-        type: string
-      severity:
-        type: string
-      type:
-        type: string
-      creationDate:
-        type: string
-        format: date
-      targetResolutionDate:
-        type: string
-        format: date
-      status:
-        type: string
-        enum:
-          - Submitted
-          - Rejected
-          - Acknowledged
-          - InProgress
-          - InProgressHeld
-          - InProgressPending
-          - Resolved
-          - Closed
-          - Cancelled
-      statusChangeReason:
-        type: string
-      statusChangeDate:
-        type: string
-        format: date
-      relatedParty:
-        type: array
-        items:
-          $ref: '#/definitions/RelatedParty'
-      relatedObject:
-        type: array
-        items:
-          $ref: '#/definitions/RelatedObject'
-      note:
-        type: array
-        items:
-          $ref: '#/definitions/Note'
   TroubleTicketListSiren:
     type: object
     properties:
