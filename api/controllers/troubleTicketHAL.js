@@ -196,6 +196,8 @@ module.exports = {
   function troubleTicketCreateHAL(req, res) {
   var troubleTicket = req.swagger.params.troubleTicket.value;
 
+  var self = req.url.slice( 0, req.url.indexOf("?") ) + "/" + troubleTicket.id
+
   // Use connect method to connect to the server
   MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
@@ -208,7 +210,7 @@ module.exports = {
       });
     db.close();
     });
-    res.json( generateTroubleTicketDoc( troubleTicket ));
+    res.json( generateTroubleTicketDoc( troubleTicket, self ));
    }
 
 
