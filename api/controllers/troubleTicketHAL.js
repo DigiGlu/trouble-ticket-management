@@ -57,17 +57,16 @@ module.exports = {
 
     var patchDoc = { $set: troubleTicket }
 
-    // console.log( "Update: ", JSON.stringify( query), ", ", JSON.stringify(patchDoc) )
-
     collection.update( query, patchDoc, function(err, doc) {
         assert.equal(err, null);
 
         // Find one document
         collection.findOne( query, function(err, doc) {
             doc = generateTroubleTicketDoc( doc );
+
+            res.json( doc );
          })
 
-        res.json( doc );
         });
     })
   }
