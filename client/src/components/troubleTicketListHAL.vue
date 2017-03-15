@@ -35,7 +35,7 @@
           <td>
             <button type="button" class="btn btn-success btn-xs"
               data-toggle="modal" data-target="#troubleTicketModal"
-              v-on:click="$router.push({name: 'troubleTicketEdit', params: {troubleTicketId: troubleTicket.id} })">
+              v-on:click="$router.push({name: 'troubleTicketEditHAL', params: {troubleTicketId: troubleTicket.id} })">
               <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
               edit
             </button>
