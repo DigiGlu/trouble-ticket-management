@@ -28,4 +28,4 @@ This is *work in progress*. It includes draft tests with hypermedia extensions (
 
 #### Build container locally 
 
-- docker build -t <your-docker-hib-name>/tmfapi-trouble-ticket-management .
+- docker build -t [your-docker-hub-name]/tmfapi-trouble-ticket-management .
