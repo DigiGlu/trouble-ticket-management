@@ -17,3 +17,15 @@ This is *work in progress*. It includes draft tests with hypermedia extensions (
 #### Client UI (locally) ####
 - 'cd client'
 - 'npm run dev'
+
+### Deployment with docker
+
+#### Run with docker-compose
+
+- docker-compose up
+
+(this fetches the API service and MongoDB from Docker Hub)
+
+#### Build container locally 
+
+- docker build -t <your-docker-hib-name>/tmfapi-trouble-ticket-management .
