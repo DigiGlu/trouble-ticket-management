@@ -43,7 +43,7 @@ var router = new VueRouter({
     component: troubleTicketListHAL,
     children: [{
       // EDIT
-      path: '/hal/edit/:troubleTicketId',
+      path: '/hal/edit/:troubleTicketId/:action',
       name: 'troubleTicketEditHAL',
       component: troubleTicketEditHAL
       }]

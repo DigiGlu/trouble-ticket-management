@@ -35,13 +35,14 @@
           <td>
             <button type="button" class="btn btn-success btn-xs"
               data-toggle="modal" data-target="#troubleTicketModal"
-              v-on:click="$router.push({name: 'troubleTicketEditHAL', params: {troubleTicketId: troubleTicket.id} })">
+              v-on:click="$router.push({name: 'troubleTicketEditHAL', params: {troubleTicketId: troubleTicket.id, action: 'none' } })">
               <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
               edit
             </button>
             <button v-for="action in troubleTicket._actions" 
               type="button" class="btn btn-info btn-xs"
-              v-on:click="triggerAction(action)">
+              data-toggle="modal" data-target="#troubleTicketModal"
+              v-on:click="$router.push({name: 'troubleTicketEditHAL', params: {troubleTicketId: troubleTicket.id, action: action.title } })">
               {{ action.title }}
             </button>
               <div class="modal fade" id="troubleTicketModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -134,9 +135,6 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
-      },
-      triggerAction: function(action) {
-        alert(JSON.stringify(action,5,"\t"))
       },
       gotoFirstPage: function() {
         this.fetchData( config.server_url + this.firstPageURL + "&embed=true" )
