@@ -4,6 +4,8 @@ var config = require( './config.json' );
 
 var util = require('util');
 
+var mongoUtils = require('../utilities/mongoUtils')
+
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
@@ -38,12 +40,14 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
   MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
 
+
     // Get the documents collection
  
     var collection = db.collection('troubleTicket');
   
     // Find some documents
-    collection.find({}).toArray(function(err, docs) {
+    collection.find({}, 
+        mongoUtils.fieldFilter(req.swagger.params.fields.value)).toArray(function(err, docs) {
         assert.equal(err, null);
         res.json( docs );
         });
@@ -67,11 +71,10 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
     const query = { id: troubleTicketId.toString() }
 
     // Find some documents
-    collection.findOne( query, function(err, doc) {
-      // delete the mongodb _id attribute from the JSON document
-      delete doc["_id"]
-
+    collection.findOne( query, 
+      mongoUtils.fieldFilter(req.swagger.params.fields.value), function(err, doc) {
       assert.equal(err, null);
+
       res.json( doc );
       });
     })

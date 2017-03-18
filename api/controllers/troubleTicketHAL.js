@@ -4,6 +4,8 @@ var config = require( './config.json' );
 
 var util = require('util');
 
+var mongoUtils = require('../utilities/mongoUtils')
+
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
@@ -93,9 +95,10 @@ module.exports = {
     // Get the documents collection
  
     var collection = db.collection('troubleTicket');
-  
+
     // Find some documents
-    collection.find({}).toArray(function(err, docs) {
+    collection.find({}, 
+        mongoUtils.fieldFilter(req.swagger.params.fields.value)).toArray(function(err, docs) {
         assert.equal(err, null);
 
         const totalsize = docs.length
@@ -180,12 +183,13 @@ module.exports = {
     const query = { id: troubleTicketId.toString() }
 
     // Find one document
-    collection.findOne( query, function(err, doc) {
+    collection.findOne( query, 
+      mongoUtils.fieldFilter(req.swagger.params.fields.value), function(err, doc) {
       doc= generateTroubleTicketDoc( doc, req.url );
   
       assert.equal(err, null);
 
-      res.json( doc );
+      res.json( doc );  
       })
     });
   }
