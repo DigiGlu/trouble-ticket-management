@@ -2,8 +2,6 @@
 
 module.exports = { fieldFilter };
 
-// Quick and dirty: Hard coded model - to be fixed later
-
 function fieldFilter ( urlString ) {
     var fieldList = []
     if ( urlString != undefined ) {
