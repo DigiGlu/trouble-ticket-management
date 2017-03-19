@@ -44,9 +44,7 @@ paths:
         '200':
           description: List of TroubleTicket
           schema:
-            type: object
-            items:
-              $ref: '#/definitions/TroubleTicketListHAL'
+            $ref: '#/definitions/TroubleTicketListHAL'
     post:
       tags:
         - troubleTicket
