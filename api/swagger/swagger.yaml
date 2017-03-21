@@ -374,9 +374,6 @@ definitions:
       role:
         type: string
   TroubleTicket:
-    required:
-      - status
-      - statusChangeReason
     type: object
     properties:
       id:
@@ -425,9 +422,6 @@ definitions:
         items:
           $ref: '#/definitions/Note'
   TroubleTicketHAL:
-    required:
-      - status
-      - statusChangeReason
     type: object
     properties:
       '_links':
@@ -574,9 +568,6 @@ definitions:
         items:
           type: string
       'properties':
-        required:
-          - status
-          - statusChangeReason
         type: object
         properties:
           id:
