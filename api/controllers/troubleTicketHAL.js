@@ -3,11 +3,14 @@
 var config = require( './config.json' );
 
 var util = require('util');
+var Promise = require('promise');
 
 var mongoUtils = require('../utilities/mongoUtils')
 
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
+
+var axios = require('axios');
 
 var troubleTicketStates = require('../utilities/troubleTicketStates')
 
@@ -53,9 +56,6 @@ module.exports = {
     var collection = db.collection('troubleTicket');
 
     const query = { id: troubleTicketId.toString() }
-
-    // Update the document
-    // db.troubleTicket.update( {id: "123"}, { $set: { status: "Rejected"} })
 
     var patchDoc = { $set: troubleTicket }
 
@@ -170,29 +170,59 @@ module.exports = {
 
   function troubleTicketGetHAL(req, res) {
 
-  var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
+    var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 
-  // Use connect method to connect to the server
-  MongoClient.connect(mongourl, function(err, db) {
-    assert.equal(null, err);
+    // Use connect method to connect to the server
+    MongoClient.connect(mongourl, function(err, db) {
+      assert.equal(null, err);
 
-    // Get the documents collection
- 
-    var collection = db.collection('troubleTicket');
+      // Get the documents collection
+      var collection = db.collection('troubleTicket');
+      const query = { id: troubleTicketId.toString() }
 
-    const query = { id: troubleTicketId.toString() }
+      // Find one document
+      collection.findOne( query, 
+        mongoUtils.fieldFilter(req.swagger.params.fields.value), function(err, doc) {
+        const halDoc = generateTroubleTicketDoc( doc, req.url );
+    
+        assert.equal(err, null);
 
-    // Find one document
-    collection.findOne( query, 
-      mongoUtils.fieldFilter(req.swagger.params.fields.value), function(err, doc) {
-      doc= generateTroubleTicketDoc( doc, req.url );
-  
-      assert.equal(err, null);
+        if ( req.swagger.params.embed.value == "party" ) {
+          // embed party instance in _embedded element
 
-      res.json( doc );  
+          halDoc._embedded = []
+
+          var partyPromises = []
+
+          // Create array of promises to get party instances
+          doc.relatedParty.forEach( function(party){
+            partyPromises.push( generatePartyDoc(config.tt_host + party.href, halDoc._embedded));
+          })
+
+          // Request instances
+          Promise.all( partyPromises ).then( function(){ res.json( halDoc )} )
+        }
       })
     });
   }
+
+function generatePartyDoc( partyUrl, embeddedDoc ) {
+  return new Promise( function( resolve) {
+          axios.get( partyUrl, {
+            dataType: 'json',
+            headers: {
+              'Accept': 'application/hal+json'
+            },
+            mode: 'no-cors' 
+          }).then(function (response) {
+              embeddedDoc.push( response.data )
+              resolve();
+          }).catch(function (error) {
+              console.log(error)
+              reject();
+          })
+    });
+}
 
   // Create a new troubleTicket: POST /v2/troubleTicket
 

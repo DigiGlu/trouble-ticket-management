@@ -82,6 +82,11 @@ paths:
           required: false
           description: ''
           type: string
+        - name: embed
+          in: query
+          required: false
+          description: 'Embed resources in response'
+          type: string
       responses:
         '200':
           description: TroubleTicket
