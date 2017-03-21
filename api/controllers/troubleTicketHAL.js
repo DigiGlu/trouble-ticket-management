@@ -202,6 +202,9 @@ module.exports = {
           // Request instances
           Promise.all( partyPromises ).then( function(){ res.json( halDoc )} )
         }
+        else {
+          res.json( halDoc )
+        }
       })
     });
   }
