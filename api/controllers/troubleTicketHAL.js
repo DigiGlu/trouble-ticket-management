@@ -183,27 +183,32 @@ module.exports = {
       // Find one document
       collection.findOne( query, 
         mongoUtils.fieldFilter(req.swagger.params.fields.value), function(err, doc) {
-        const halDoc = generateTroubleTicketDoc( doc, req.url );
-    
+
         assert.equal(err, null);
 
-        if ( req.swagger.params.embed.value == "party" && doc.relatedParty != undefined ) {
-          // embed party instance in _embedded element
+        if ( doc != undefined  ) {
+          const halDoc = generateTroubleTicketDoc( doc, req.url );
+      
+          if ( req.swagger.params.embed.value == "party" && doc.relatedParty != undefined ) {
+            // embed party instance in _embedded element
 
-          halDoc._embedded = []
+            halDoc._embedded = []
 
-          var partyPromises = []
+            var partyPromises = []
 
-          // Create array of promises to get party instances
-          doc.relatedParty.forEach( function(party){
-            partyPromises.push( generatePartyDoc(config.tt_host + party.href, halDoc._embedded));
-          })
+            // Create array of promises to get party instances
+            doc.relatedParty.forEach( function(party){
+              partyPromises.push( generatePartyDoc(config.tt_host + party.href, halDoc._embedded));
+            })
 
-          // Request instances
-          Promise.all( partyPromises ).then( function(){ res.json( halDoc )} )
-        }
-        else {
-          res.json( halDoc )
+            // Request instances
+            Promise.all( partyPromises ).then( function(){ res.json( halDoc )} )
+          }
+          else {
+            res.json( halDoc )
+          }
+        } else {
+          res.json( "{}")
         }
       })
     });
