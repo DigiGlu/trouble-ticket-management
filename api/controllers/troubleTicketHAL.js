@@ -187,7 +187,7 @@ module.exports = {
     
         assert.equal(err, null);
 
-        if ( req.swagger.params.embed.value == "party" ) {
+        if ( req.swagger.params.embed.value == "party" && doc.relatedParty != undefined ) {
           // embed party instance in _embedded element
 
           halDoc._embedded = []
