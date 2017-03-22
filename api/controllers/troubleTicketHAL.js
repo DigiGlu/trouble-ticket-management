@@ -129,8 +129,8 @@ module.exports = {
         // add embedded resources if requested
 
        if ( req.swagger.params.embed.value == "true" ) {
-          halresp._embed = {item: []}
-          halresp._embed.item = docs 
+          halresp._embedded = {item: []}
+          halresp._embedded.item = docs 
           }
 
         // Add array of links
