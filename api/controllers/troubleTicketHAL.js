@@ -36,6 +36,7 @@ const mongourl = config.db_prot+"://"+dbhost+":"
 
 module.exports = { 
   troubleTicketFindHAL, 
+  troubleTicketFindHeader,
   troubleTicketGetHAL, 
   troubleTicketPatchHAL,
   troubleTicketCreateHAL };
@@ -162,6 +163,74 @@ module.exports = {
         halresp._links.last = { href: baseURL.concat("?page=").concat(Math.ceil(totalsize/pagesize)) }
 
         res.json( halresp );
+        });
+    })
+  }
+
+  function troubleTicketFindHeader(req, res) {
+
+  // Use connect method to connect to the server
+  MongoClient.connect(mongourl, function(err, db) {
+    assert.equal(null, err);
+
+    var pageno = req.swagger.params.page.value ? parseInt(req.swagger.params.page.value) : 1;
+
+    // Fixed page size for now
+
+    const pagesize = 5
+
+    const firstitem = (pageno-1)*pagesize
+    const lastitem = firstitem + pagesize
+
+    const baseURL = req.url.slice( 0, req.url.indexOf("?") )
+
+    // Get the documents collection
+ 
+    var collection = db.collection('troubleTicket');
+
+    // Find some documents
+    collection.find({}, 
+        mongoUtils.fieldFilter(req.swagger.params.fields.value)).toArray(function(err, docs) {
+        assert.equal(err, null);
+
+        const totalsize = docs.length
+
+        // slice page
+        docs = docs.slice( firstitem, lastitem )
+
+        // Generate Trouble Ticket
+        docs.forEach( function( item ) {
+          item = generateTroubleTicketDoc( item, baseURL.concat( "/" ).concat( item.id ) )
+        }) 
+
+        var links = { 
+            self: { href: req.url }
+        }
+ 
+        // Pagination attributes
+
+        //halresp.page = pageno
+        //halresp.totalrecords = totalsize
+        //halresp.pagesize = pagesize
+        //halresp.totalpages = Math.ceil(totalsize/pagesize)
+
+        // Create pagination links
+
+        if ( totalsize > (pageno * pagesize) ) {
+          links.next = { href: baseURL.concat("?page=").concat(pageno+1)}
+        }
+
+        links.first = { href: baseURL.concat("?page=1")}
+
+        if ( pageno > 1 ) {
+          links.previous = { href: baseURL.concat("?page=").concat(pageno-1)}          
+        } 
+
+        links.last = { href: baseURL.concat("?page=").concat(Math.ceil(totalsize/pagesize)) }
+
+        res.header( "x-links", JSON.stringify(links))
+
+        res.json( docs );
         });
     })
   }

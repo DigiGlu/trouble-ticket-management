@@ -29,6 +29,40 @@ paths:
           description: Trouble Ticket API Home document
           schema:
             $ref: '#/definitions/TroubleTicketHome'
+  '/hal/troubleTicketHeader':
+    x-swagger-router-controller: troubleTicketHAL
+    get:
+      tags:
+        - troubleTicket
+      operationId: troubleTicketFindHeader
+      produces:
+        - application/hal+json
+      summary: troubleTicketFind
+      description: ''
+      deprecated: false
+      parameters:
+        - name: fields
+          in: query
+          required: false
+          description: ''
+          type: string
+        - name: page
+          in: query
+          required: false
+          description: ''
+          type: integer
+        - name: embed
+          in: query
+          required: false
+          description: 'Embed resources in response'
+          type: string
+      responses:
+        '200':
+          description: List of TroubleTicket
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TroubleTicketHAL'
   '/hal/troubleTicket':
     x-swagger-router-controller: troubleTicketHAL
     get:
