@@ -3,5 +3,6 @@
 	"db_host": "localhost",
 	"db_port": 27017,
 	"db_name": "digiglu",
-	"tt_host": "http://localhost:10011"
+	"tt_host": "http://localhost:10011",
+	"tt_url_hal": "/api/troubleTicketManagement/v2/hal/"
 }
