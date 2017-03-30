@@ -49,36 +49,23 @@ module.exports = { troubleTicketHome };
 
         // create HAL response
 
-        var halresp = {};
-
-        halresp.createTroubleTicket = {
-          href: config.tt_url_hal + 'troubleTicket',
-          method: "POST"
-        }
-        if (totalsize > 0) {
-          halresp.allTroubleTickets = {
-            href: config.tt_url_hal + 'troubleTicket',
-            method: "GET"
-          }
-          halresp.getTroubleTicket = {
-            href: config.tt_url_hal + 'troubleTicket/{id}',
-            method: "GET"
-          }
-          halresp.replaceTroubleTicket = {
-            href: config.tt_url_hal + 'troubleTicket/{id}',
-            method: "PUT"
-          }
-          halresp.updateTroubleTicket = {
-            href: config.tt_url_hal + 'troubleTicket/{id}',
-            method: "PATCH"
-          }
-          halresp.deleteTroubleTicket = {
-            href: config.tt_url_hal + 'troubleTicket/{id}',
-            method: "DELETE"
-          }
-        }
-
-        halresp.numberOfTroubleTickets = totalsize
+        var halresp = {
+          // _links contain GET requests (GET collection or a single trouble ticket)
+          _links: {
+            allTroubleTickets: {
+              href: config.tt_url_hal + 'troubleTicket'
+            },
+            getTroubleTicket: {
+              href: config.tt_url_hal + 'troubleTicket/{id}'
+            }
+          },
+          // _actions conatins POST (create a trouble ticket)
+          _actions: [{
+            "name": "createTroubleTicket",
+            "method": "POST",
+            "href": config.tt_url_hal + 'troubleTicket'
+          }]
+        };
 
         res.json( halresp );
         });
