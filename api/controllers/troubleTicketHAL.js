@@ -306,6 +306,10 @@ function generatePartyDoc( partyUrl, embeddedDoc ) {
   function troubleTicketCreateHAL(req, res) {
   var troubleTicket = req.swagger.params.troubleTicket.value;
 
+  if (troubleTicket.id == undefined) {
+    troubleTicket.id = guid();
+  }
+
   var self = req.url.slice( 0, req.url.indexOf("?") ) + "/" + troubleTicket.id
 
   // Use connect method to connect to the server
@@ -322,6 +326,15 @@ function generatePartyDoc( partyUrl, embeddedDoc ) {
     });
     res.json( generateTroubleTicketDoc( troubleTicket, self ));
    }
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4();
+}
 
 function generateTroubleTicketDoc( doc, url ) {
   // delete the mongodb _id attribute from the JSON document
