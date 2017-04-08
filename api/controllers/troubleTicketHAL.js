@@ -323,7 +323,6 @@ function generatePartyDoc( partyUrl, embeddedDoc ) {
     res.json( generateTroubleTicketDoc( troubleTicket, self ));
    }
 
-
 function generateTroubleTicketDoc( doc, url ) {
   // delete the mongodb _id attribute from the JSON document
   delete doc["_id"]

@@ -112,6 +112,9 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
   function troubleTicketCreate(req, res) {
   var troubleTicket = req.swagger.params.troubleTicket.value;
 
+  if (troubleTicket.id == undefined) {
+    troubleTicket.id = guid();
+  }
   // Use connect method to connect to the server
   MongoClient.connect(mongourl, function(err, db) {
     assert.equal(null, err);
@@ -126,3 +129,12 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
     });
     res.json(troubleTicket);
    }
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4();
+}
