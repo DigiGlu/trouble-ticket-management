@@ -56,7 +56,7 @@ module.exports = {
  
     var collection = db.collection('troubleTicket');
 
-    const query = { id: troubleTicketId.toString() }
+    const query = { id: JSON.parse(troubleTicketId) }
 
     var patchDoc = { $set: troubleTicket }
 
