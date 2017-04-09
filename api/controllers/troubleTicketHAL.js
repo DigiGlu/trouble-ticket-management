@@ -45,7 +45,7 @@ module.exports = {
 
   function troubleTicketPatchHAL(req, res) {
 
-  var troubleTicket = String( req.swagger.params.troubleTicket.value );
+  var troubleTicket = req.swagger.params.troubleTicket.value;
   var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 
   // Use connect method to connect to the server
@@ -239,7 +239,7 @@ module.exports = {
 
   function troubleTicketGetHAL(req, res) {
 
-    var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
+    var troubleTicketId = String( req.swagger.params.troubleTicketId.value );
 
     // Use connect method to connect to the server
     MongoClient.connect(mongourl, function(err, db) {
