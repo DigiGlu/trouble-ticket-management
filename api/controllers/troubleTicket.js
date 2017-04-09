@@ -85,7 +85,7 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
   function troubleTicketUpdate(req, res) {
 
   var troubleTicket = req.swagger.params.troubleTicket.value;
-  var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
+  var troubleTicketId = String( req.swagger.params.troubleTicketId.value);
 
   // Use connect method to connect to the server
   MongoClient.connect(mongourl, function(err, db) {
@@ -95,7 +95,7 @@ module.exports = { troubleTicketFind, troubleTicketCreate, troubleTicketGet, tro
  
     var collection = db.collection('troubleTicket');
 
-    const query = { id: troubleTicketId.toString() }
+    const query = { id: troubleTicketId }
 
     console.log( "Update: ", JSON.stringify( query) )
 
