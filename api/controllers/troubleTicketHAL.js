@@ -45,7 +45,7 @@ module.exports = {
 
   function troubleTicketPatchHAL(req, res) {
 
-  var troubleTicket = req.swagger.params.troubleTicket.value;
+  var troubleTicket = String( req.swagger.params.troubleTicket.value );
   var troubleTicketId = parseInt(req.swagger.params.troubleTicketId.value);
 
   // Use connect method to connect to the server
@@ -56,7 +56,7 @@ module.exports = {
  
     var collection = db.collection('troubleTicket');
 
-    const query = { id: JSON.parse(troubleTicketId) }
+    const query = { id: troubleTicketId }
 
     var patchDoc = { $set: troubleTicket }
 
